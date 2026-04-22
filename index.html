@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Fiche terrain — Itinérance Montréal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap');
+
+@page { size: A4 landscape; margin: 0; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --rouge:    #C0392B;
+  --rouge-pale: #FEF2F2;
+  --orange:   #E67E22;
+  --vert:     #27AE60;
+  --noir:     #111111;
+  --gris-f:   #2C2C2C;
+  --gris-m:   #666666;
+  --gris-c:   #AAAAAA;
+  --gris-pale:#F4F4F2;
+  --blanc:    #FAFAF8;
+  --rapsim:   #7B3F00;
+  --rapsim-bg:#FEF3E2;
+}
+
+body {
+  background: var(--blanc);
+  font-family: 'DM Sans', sans-serif;
+  width: 297mm;
+  height: 210mm;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 62mm 1fr 1fr;
+  grid-template-rows: 100%;
+}
+
+/* ── COLONNE GAUCHE — IDENTITÉ ── */
+.col-id {
+  background: var(--noir);
+  color: white;
+  padding: 10mm 8mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+.col-id::before {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: var(--rouge);
+  opacity: 0.15;
+}
+
+.id-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 2px;
+  color: var(--gris-c);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.id-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1.05;
+  color: white;
+  margin-bottom: 4px;
+}
+.id-subtitle {
+  font-size: 9px;
+  color: var(--gris-c);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.id-divider {
+  width: 28px;
+  height: 2px;
+  background: var(--rouge);
+  margin-bottom: 14px;
+}
+
+/* Chiffres-clés */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.kpi {
+  background: rgba(255,255,255,0.07);
+  border: 0.5px solid rgba(255,255,255,0.12);
+  border-radius: 4px;
+  padding: 7px 8px;
+}
+.kpi-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: white;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.kpi-num.rouge { color: var(--rouge); }
+.kpi-num.orange { color: #F39C12; }
+.kpi-num.vert   { color: #2ECC71; }
+.kpi-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 6.5px;
+  color: var(--gris-c);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  line-height: 1.4;
+}
+
+/* Clientèle bar */
+.cat-section { margin-bottom: 14px; }
+.cat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 6.5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--gris-c);
+  margin-bottom: 6px;
+}
+.cat-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 4px;
+}
+.cat-name {
+  font-size: 8px;
+  color: rgba(255,255,255,0.7);
+  min-width: 36px;
+}
+.cat-bar-bg {
+  flex: 1;
+  height: 5px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.cat-bar-fill { height: 5px; border-radius: 2px; }
+.cat-num { font-size: 8px; color: var(--gris-c); min-width: 18px; text-align: right; }
+
+/* Sources */
+.sources {
+  border-top: 0.5px solid rgba(255,255,255,0.1);
+  padding-top: 8px;
+}
+.src-row { display: flex; align-items: center; gap: 5px; margin-bottom: 4px; }
+.src-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.src-txt { font-size: 7.5px; color: var(--gris-c); }
+
+/* ── COLONNE MILIEU — REFUGES OUVERTS ── */
+.col-refuges {
+  padding: 10mm 7mm 8mm;
+  border-right: 1px solid #E8E8E4;
+  display: flex;
+  flex-direction: column;
+}
+
+.col-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  border-bottom: 1.5px solid var(--noir);
+  padding-bottom: 5px;
+}
+.col-h-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--noir);
+}
+.col-h-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  background: var(--noir);
+  color: white;
+  padding: 2px 7px;
+  border-radius: 2px;
+  letter-spacing: 0.5px;
+}
+
+.refuge-list { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+.refuge-row {
+  display: grid;
+  grid-template-columns: 1fr 60px 48px 32px;
+  gap: 5px;
+  align-items: start;
+  padding: 6px 8px;
+  border-radius: 4px;
+  border-left: 2.5px solid transparent;
+}
+.refuge-row.hommes  { background: #EFF6FF; border-color: #2C4F7C; }
+.refuge-row.mixte   { background: #F0FDF4; border-color: var(--vert); }
+.refuge-row.femmes  { background: #FDF2F8; border-color: #8B1A4A; }
+.refuge-row.jeunes  { background: #F0F9FF; border-color: #1A6B8A; }
+.refuge-row.autochtones { background: #FFF7ED; border-color: #92400E; }
+
+.r-nom {
+  font-size: 8.5px;
+  font-weight: 500;
+  color: var(--noir);
+  line-height: 1.35;
+}
+.r-arr {
+  font-size: 7px;
+  color: var(--gris-m);
+  margin-top: 1px;
+}
+.r-cat-pill {
+  font-size: 6.5px;
+  font-family: 'DM Mono', monospace;
+  padding: 1.5px 5px;
+  border-radius: 2px;
+  white-space: nowrap;
+  text-align: center;
+  align-self: start;
+  margin-top: 1px;
+}
+.pill-h  { background: #DBEAFE; color: #1e3a5f; }
+.pill-m  { background: #D1FAE5; color: #064E3B; }
+.pill-f  { background: #FCE7F3; color: #831843; }
+.pill-j  { background: #E0F2FE; color: #0C4A6E; }
+.pill-a  { background: #FEF3C7; color: #78350F; }
+
+.r-cap {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--noir);
+  text-align: right;
+  line-height: 1;
+}
+.r-cap-label {
+  font-size: 6px;
+  color: var(--gris-c);
+  text-align: right;
+  font-family: 'DM Mono', monospace;
+}
+.r-src {
+  width: 6px; height: 6px; border-radius: 50%;
+  margin-top: 4px; justify-self: end;
+}
+
+/* ── COLONNE DROITE — ANALYSE ── */
+.col-analyse {
+  padding: 10mm 7mm 8mm;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* LISA */
+.lisa-section {}
+.lisa-row {
+  display: grid;
+  grid-template-columns: 10px 1fr auto;
+  gap: 7px;
+  align-items: center;
+  padding: 5px 8px;
+  border-radius: 3px;
+  margin-bottom: 4px;
+}
+.lisa-row.hh { background: #FEF2F2; }
+.lisa-row.hl { background: #FFF7ED; border: 1px dashed #F39C12; }
+.lisa-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.lisa-arr { font-size: 8.5px; font-weight: 500; color: var(--noir); }
+.lisa-sub { font-size: 7px; color: var(--gris-m); margin-top: 1px; }
+.lisa-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 6.5px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.badge-hh { background: #C0392B; color: white; }
+.badge-hl { background: #F39C12; color: white; }
+
+/* Désalignement */
+.desal-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+.desal-card {
+  border-radius: 4px;
+  padding: 5px 5px 4px;
+  text-align: center;
+  border: 0.5px solid #E8E8E4;
+}
+.desal-arr { font-size: 6.5px; color: var(--gris-m); line-height: 1.3; margin-bottom: 2px; }
+.desal-score {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1;
+}
+.desal-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 5.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-top: 1px;
+}
+.score-crit { background: #FEF2F2; }
+.score-crit .desal-score, .score-crit .desal-lbl { color: var(--rouge); }
+.score-mod  { background: #FFF7ED; }
+.score-mod  .desal-score, .score-mod  .desal-lbl { color: var(--orange); }
+.score-ok   { background: #F0FDF4; }
+.score-ok   .desal-score, .score-ok   .desal-lbl { color: var(--vert); }
+
+/* Footer */
+.fiche-footer {
+  margin-top: auto;
+  padding-top: 6px;
+  border-top: 0.5px solid #E8E8E4;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.footer-src { font-size: 6.5px; color: var(--gris-c); line-height: 1.6; }
+.footer-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  color: var(--rouge);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+@media print {
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── COL 1 — IDENTITÉ ── -->
+<aside class="col-id">
+  <div>
+    <p class="id-eyebrow">Fiche terrain · Oct. 2022 – 2024</p>
+    <h1 class="id-title">Itinérance<br>Montréal</h1>
+    <p class="id-subtitle">Ressources d'hébergement<br>& zones prioritaires</p>
+    <div class="id-divider"></div>
+
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-num">138</div>
+        <div class="kpi-label">organismes répertoriés</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num vert">41</div>
+        <div class="kpi-label">ouverts la nuit</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">3 344</div>
+        <div class="kpi-label">places estimées</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num rouge">56</div>
+        <div class="kpi-label">sans capacité connue</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num">700</div>
+        <div class="kpi-label">itinérants visibles (MSSS 2022)</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-num orange">15/34</div>
+        <div class="kpi-label">arrond. sans organisme</div>
+      </div>
+    </div>
+
+    <div class="cat-section">
+      <div class="cat-label">Répartition par clientèle</div>
+      <div class="cat-bar-row">
+        <span class="cat-name">Mixte</span>
+        <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:51%;background:#2E7D32;"></div></div>
+        <span class="cat-num">70</span>
+      </div>
+      <div class="cat-bar-row">
+        <span class="cat-name">Femmes</span>
+        <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:17%;background:#8B1A4A;"></div></div>
+        <span class="cat-num">23</span>
+      </div>
+      <div class="cat-bar-row">
+        <span class="cat-name">Jeunes</span>
+        <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:14%;background:#1A6B8A;"></div></div>
+        <span class="cat-num">19</span>
+      </div>
+      <div class="cat-bar-row">
+        <span class="cat-name">Hommes</span>
+        <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:12%;background:#2C4F7C;"></div></div>
+        <span class="cat-num">16</span>
+      </div>
+      <div class="cat-bar-row">
+        <span class="cat-name">Autocht.</span>
+        <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:7%;background:#92400E;"></div></div>
+        <span class="cat-num">10</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <div class="src-row"><span class="src-dot" style="background:#C45E1A;"></span><span class="src-txt">RAPSIM 2024 · 24 organismes</span></div>
+    <div class="src-row"><span class="src-dot" style="background:#1A5276;"></span><span class="src-txt">211 Montréal 2024 · 114 organismes</span></div>
+    <div class="src-row"><span class="src-dot" style="background:#444;"></span><span class="src-txt">MSSS / DRSP Montréal · oct. 2022</span></div>
+    <div class="src-row"><span class="src-dot" style="background:#2E7D32;"></span><span class="src-txt">GeoDa · Queen contiguity · Moran I = 0,86</span></div>
+  </div>
+</aside>
+
+<!-- ── COL 2 — REFUGES OUVERTS LA NUIT ── -->
+<section class="col-refuges">
+  <div class="col-header">
+    <span class="col-h-title">Refuges accessibles — nuit (23h)</span>
+    <span class="col-h-badge">41 ouverts / 138</span>
+  </div>
+  <div class="refuge-list">
+
+    <div class="refuge-row hommes">
+      <div><div class="r-nom">Mission Old Brewery — Pavillon Webster</div><div class="r-arr">Ville-Marie</div></div>
+      <div><span class="r-cat-pill pill-h">Hommes</span></div>
+      <div><div class="r-cap">185</div><div class="r-cap-label">places</div></div>
+      <div><div class="r-src" style="background:#1A5276;"></div></div>
+    </div>
+
+    <div class="refuge-row hommes">
+      <div><div class="r-nom">Armée du Salut — Centre Booth</div><div class="r-arr">Le Sud-Ouest</div></div>
+      <div><span class="r-cat-pill pill-h">Hommes</span></div>
+      <div><div class="r-cap">207</div><div class="r-cap-label">places</div></div>
+      <div><div class="r-src" style="background:#1A5276;"></div></div>
+    </div>
+
+    <div class="refuge-row hommes">
+      <div><div class="r-nom">Mission Bon Accueil — Centre d'accueil</div><div class="r-arr">Ville-Marie</div></div>
+      <div><span class="r-cat-pill pill-h">Hommes</span></div>
+      <div><div class="r-cap">160</div><div class="r-cap-label">places</div></div>
+      <div><div class="r-src" style="background:#1A5276;"></div></div>
+    </div>
+
+    <div class="refuge-row mixte">
+      <div><div class="r-nom">Résidence Maria-Goretti</div><div class="r-arr">Côte-des-Neiges–NDG</div></div>
+      <div><span class="r-cat-pill pill-m">Mixte</span></div>
+      <div><div class="r-cap">217</div><div class="r-cap-label">places</div></div>
+      <div><div class="r-src" style="background:#1A5276;"></div></div>
+    </div>
+
+    <div class="refuge-row mixte">
+      <div><div class="r-nom">Refuge Hochelaga</div><div class="r-arr">Mercier–Hochelaga-Maisonneuve</div></div>
+      <div><span class="r-cat-pill pill-m">Mixte</span></div>
+      <div><div class="r-cap">161</div><div class="r-cap-label">places</div></div>
+      <div><div class="r-src" style="background:#1A5276;"></div></div>
+    </div>
+
+    <div class="refuge-row mixte">
+      <div><div class="r-nom">Situation d'Itinérance</div><div class="r-arr">Ahuntsic-Cartierville</div></div>
+      <div><span class="r-cat-pill pill-m">Mixte</span></div>
+      <div><div class="r-cap">71</div><div class="r-cap-label">places</div></div>
+      <div><div class="r-src" style="background:#1A5276;"></div></div>
+    </div>
+
+    <div class="refuge-row femmes">
+      <div><div class="r-nom">Mission Old Brewery — Pavillon Patricia Mackenzie</div><div class="r-arr">Ville-Marie</div></div>
+      <div><span class="r-cat-pill pill-f">Femmes</span></div>
+      <div><div class="r-cap">46</div><div class="r-cap-label">places</div></div>
+      <div><div class="r-src" style="background:#1A5276;"></div></div>
+    </div>
+
+    <div class="refuge-row femmes">
+      <div><div class="r-nom">Centre des femmes de Convictions</div><div class="r-arr">Ahuntsic-Cartierville</div></div>
+      <div><span class="r-cat-pill pill-f">Femmes</span></div>
+      <div><div class="r-cap">40</div><div class="r-cap-label">places</div></div>
+      <div><div class="r-src" style="background:#1A5276;"></div></div>
+    </div>
+
+    <div class="refuge-row autochtones">
+      <div><div class="r-nom">PAQ — Halte-Chaleur (autochtones)</div><div class="r-arr">Riv.-des-Prairies–PAT</div></div>
+      <div><span class="r-cat-pill pill-a">Autocht.</span></div>
+      <div><div class="r-cap">40</div><div class="r-cap-label">places</div></div>
+      <div><div class="r-src" style="background:#1A5276;"></div></div>
+    </div>
+
+    <div class="refuge-row mixte">
+      <div><div class="r-nom">Abri de Villeray</div><div class="r-arr">Villeray–Saint-Michel–PE</div></div>
+      <div><span class="r-cat-pill pill-m">Mixte</span></div>
+      <div><div class="r-cap">43</div><div class="r-cap-label">places</div></div>
+      <div><div class="r-src" style="background:#1A5276;"></div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── COL 3 — ANALYSE SPATIALE ── -->
+<section class="col-analyse">
+
+  <div>
+    <div class="col-header">
+      <span class="col-h-title">Clusters LISA — GeoDa</span>
+      <span class="col-h-badge">Bivariés · p &lt; 0,05</span>
+    </div>
+
+    <div class="lisa-row hh">
+      <div class="lisa-dot" style="background:#C0392B;"></div>
+      <div><div class="lisa-arr">Ville-Marie</div><div class="lisa-sub">296 itinérants · 59 organismes · score 35 — bien desservi</div></div>
+      <span class="lisa-badge badge-hh">High-High</span>
+    </div>
+    <div class="lisa-row hh">
+      <div class="lisa-dot" style="background:#C0392B;"></div>
+      <div><div class="lisa-arr">Le Plateau–Mont-Royal</div><div class="lisa-sub">107 itinérants · 16 organismes · score 45</div></div>
+      <span class="lisa-badge badge-hh">High-High</span>
+    </div>
+    <div class="lisa-row hh">
+      <div class="lisa-dot" style="background:#C0392B;"></div>
+      <div><div class="lisa-arr">Mercier–Hochelaga-Maisonneuve</div><div class="lisa-sub">71 itinérants · 17 organismes · score 28</div></div>
+      <span class="lisa-badge badge-hh">High-High</span>
+    </div>
+    <div class="lisa-row hh">
+      <div class="lisa-dot" style="background:#C0392B;"></div>
+      <div><div class="lisa-arr">Le Sud-Ouest</div><div class="lisa-sub">45 itinérants · 9 organismes · score 32</div></div>
+      <span class="lisa-badge badge-hh">High-High</span>
+    </div>
+    <div class="lisa-row hh">
+      <div class="lisa-dot" style="background:#C0392B;"></div>
+      <div><div class="lisa-arr">Rosemont–La Petite-Patrie</div><div class="lisa-sub">36 itinérants · 7 organismes · score 32</div></div>
+      <span class="lisa-badge badge-hh">High-High</span>
+    </div>
+    <div class="lisa-row hl" style="margin-top:4px;">
+      <div class="lisa-dot" style="background:#F39C12;border:1px dashed #B7770D;"></div>
+      <div><div class="lisa-arr" style="font-weight:600;">Côte-des-Neiges–NDG</div><div class="lisa-sub">42 itinérants · 2 organismes · score 100 — Zone prioritaire</div></div>
+      <span class="lisa-badge badge-hl">High-Low ⚠</span>
+    </div>
+    <div class="lisa-row hl">
+      <div class="lisa-dot" style="background:#F39C12;border:1px dashed #B7770D;"></div>
+      <div><div class="lisa-arr" style="font-weight:600;">Outremont</div><div class="lisa-sub">12 itinérants · 0 organisme · score 86 — Invisible dans les données</div></div>
+      <span class="lisa-badge badge-hl">Score critique</span>
+    </div>
+  </div>
+
+  <div>
+    <div class="col-header">
+      <span class="col-h-title">Indice de désalignement</span>
+      <span class="col-h-badge">0 = aligné · 100 = critique</span>
+    </div>
+    <div class="desal-grid">
+      <div class="desal-card score-crit">
+        <div class="desal-arr">CDN–NDG</div>
+        <div class="desal-score">100</div>
+        <div class="desal-lbl">Critique</div>
+      </div>
+      <div class="desal-card score-crit">
+        <div class="desal-arr">Outremont</div>
+        <div class="desal-score">86</div>
+        <div class="desal-lbl">Critique</div>
+      </div>
+      <div class="desal-card score-mod">
+        <div class="desal-arr">Plateau–MR</div>
+        <div class="desal-score">45</div>
+        <div class="desal-lbl">Modéré</div>
+      </div>
+      <div class="desal-card score-mod">
+        <div class="desal-arr">Ville-Marie</div>
+        <div class="desal-score">35</div>
+        <div class="desal-lbl">Modéré</div>
+      </div>
+      <div class="desal-card score-mod">
+        <div class="desal-arr">Le Sud-Ouest</div>
+        <div class="desal-score">32</div>
+        <div class="desal-lbl">Modéré</div>
+      </div>
+      <div class="desal-card score-mod">
+        <div class="desal-arr">Rosemont–LPP</div>
+        <div class="desal-score">32</div>
+        <div class="desal-lbl">Modéré</div>
+      </div>
+      <div class="desal-card score-mod">
+        <div class="desal-arr">Verdun</div>
+        <div class="desal-score">30</div>
+        <div class="desal-lbl">Modéré</div>
+      </div>
+      <div class="desal-card score-mod">
+        <div class="desal-arr">Ahuntsic–C</div>
+        <div class="desal-score">29</div>
+        <div class="desal-lbl">Modéré</div>
+      </div>
+      <div class="desal-card score-mod">
+        <div class="desal-arr">Mercier–HM</div>
+        <div class="desal-score">28</div>
+        <div class="desal-lbl">Modéré</div>
+      </div>
+      <div class="desal-card score-ok">
+        <div class="desal-arr">Villeray–SM</div>
+        <div class="desal-score">7</div>
+        <div class="desal-lbl">Faible</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fiche-footer">
+    <div class="footer-src">
+      MSSS / DRSP Montréal oct. 2022 · RAPSIM 2024 · 211 Montréal 2024<br>
+      Ville de Montréal (LHM) · Statistique Canada 2021 · GeoDa Queen contiguity
+    </div>
+    <div class="footer-tag">Outil d'aide à la décision — usage interne</div>
+  </div>
+
+</section>
+
+</body>
+</html>
